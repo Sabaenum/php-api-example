@@ -1,21 +1,23 @@
 <?php
-namespace routes;
+namespace api\routes;
 
-use interfaces\URL;
+use api\interfaces\UrlInterface;
+use api\responses\Request;
 
-Class Route implements URL{
+Class Route implements UrlInterface{
 
     public $uri;
-    public $parametrs;
-    public $method;
-    public $serverBasePath;
+    public $request;
+    public $basePath;
 
     public function __construct()
     {
-
+        $this->uri = $this->getUri();
+        $this->basePath = $this->getBasePath();
+        $this->request = new Request();
     }
 
-    public function getUrl()
+    public function getUri()
     {
         $this->uri = substr($_SERVER['REQUEST_URI'], strlen($this->getBasePath()));
 
@@ -23,29 +25,14 @@ Class Route implements URL{
             $this->uri = substr($this->uri, 0, strpos($this->uri, '?'));
         }
 
-        return '/'.trim($this->uri, '/');
+        return trim($this->uri, '/');
     }
 
-    public function getParametrs()
+    public function getBasePath()
     {
-
-    }
-
-    public function getMethod()
-    {
-
-    }
-    /**
-     * Return server base Path, and define it if isn't defined.
-     *
-     * @return string
-     */
-    protected function getBasePath()
-    {
-        // Check if server base path is defined, if not define it.
-        if ($this->serverBasePath === null) {
-            $this->serverBasePath = implode('/', array_slice(explode('/', $_SERVER['SCRIPT_NAME']), 0, -1)).'/';
+        if ($this->basePath === null) {
+            $this->basePath = implode('/', array_slice(explode('/', $_SERVER['SCRIPT_NAME']), 0, -1)).'/';
         }
-        return $this->serverBasePath;
+        return $this->basePath;
     }
 }
