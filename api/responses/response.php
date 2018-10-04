@@ -4,15 +4,28 @@ namespace api\responses;
 use api\interfaces\ResponseInterface;
 
 Class Response implements ResponseInterface{
-    private $code;
-    private $message;
-    public function jsonDecode()
+    public $code;
+    public $message;
+    public function __construct()
     {
-
+        $this->code = 200;
     }
 
-    public function errorMassage($message = '',$code = 404)
+    public function jsonEncode($result = array())
     {
-       return $message;
+        return json_encode($result);
+    }
+
+    public function errorMassage($message = array(),$code = 404)
+    {
+       $this->code = $code;
+       $this->message = $message;
+    }
+    public function setMassage($message = array()){
+        $this->message = $message;
+    }
+    public function send(){
+        header('HTTP/1.1 ' . $this->code);
+        print $this->jsonEncode($this->message);
     }
 }

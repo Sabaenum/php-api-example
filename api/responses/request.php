@@ -5,16 +5,6 @@ namespace api\responses;
 use api\interfaces\RequestInterface;
 
 Class Request implements RequestInterface {
-
-    public $parrams;
-    public $method;
-
-    public function __construct()
-    {
-        $this->method = $this->getMethod();
-        $this->parrams = $this->getParametrs();
-    }
-
     public function getMethod(){
         switch ($_SERVER['REQUEST_METHOD']){
             case 'POST' :
@@ -25,6 +15,9 @@ Class Request implements RequestInterface {
         }
     }
     public function getParametrs(){
-        return json_encode($_POST);
+        $rest_json = file_get_contents("php://input");
+        $_POST = json_decode($rest_json, true);
+        return $_POST;
+
     }
 }

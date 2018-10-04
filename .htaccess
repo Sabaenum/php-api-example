@@ -3,3 +3,5 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RedirectMatch /([^/]*)/ index.php
 RewriteRule . /index.php [L]
+
+# На данный момент можно отправить запрос только на URL (http://xxxxx.xx/xxxxxx) Все остальные будут вести на 500. Не успел до конца сделать. В задании должна быть 404

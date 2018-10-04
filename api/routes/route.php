@@ -2,19 +2,16 @@
 namespace api\routes;
 
 use api\interfaces\UrlInterface;
-use api\responses\Request;
 
 Class Route implements UrlInterface{
 
     public $uri;
-    public $request;
     public $basePath;
 
     public function __construct()
     {
         $this->uri = $this->getUri();
         $this->basePath = $this->getBasePath();
-        $this->request = new Request();
     }
 
     public function getUri()
